@@ -5,7 +5,7 @@ class pessoa:
         self.email = e
         self.telefone = t
     def __str__(self):
-        return f'''#Nome: {self.nome}
+        return f'''Nome: {self.nome}
 Telefone: {self.telefone}
 Email: {self.email}
 CPF: {self.cpf}'''
@@ -18,7 +18,7 @@ cpf = input("Digite seu CPF: ")
 
 
 p1 = pessoa(em, cpf, tel, nm)
-p1.__str__()
+print(p1.__str__())
 
 #print(f''' 
 #Nome: {p1.nome}
