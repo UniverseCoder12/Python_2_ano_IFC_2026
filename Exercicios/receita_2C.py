@@ -5,13 +5,17 @@ class Receita:
         self.modo_preparo = md_pr
         self.ingredientes = ingr
     def __str__(self):
-        return f'''
+        ing = ""
+        for i in self.ingredientes:
+            ing = ing + str(i)
+        x= f'''
 Receita: {self.nome}
 Tempo de preparo: {self.tempo_preparo} min
-ingredientes: {self.ingredientes}
+ingredientes: {ing}
 modo de preparo:
 {self.modo_preparo}
                 '''
+        return x
 
 class Ingredientes:
     def __init__(self, nm, quant, uni):
@@ -20,9 +24,10 @@ class Ingredientes:
         self.unidade = uni
     
     def __str__(self):
-        return f'{self.quantidade} {self.unidade} {self.nome}'
+        return f'|{self.quantidade} {self.unidade} {self.nome}|'
 
 ing1 = Ingredientes("Cogumelo", 1, "unidade")
-ing2 = Ingredientes("Miojo")
+ing2 = Ingredientes("Miojo", 1, "Pacote")
 r_ing = [ing1, ing2]
 r1 = Receita("Mario", 50, ' 1-Pegue um cogumelo, 2-Queime ele e grite tres vezes mario, 3- coma um miojo da nitendo', r_ing)
+print(r1)
