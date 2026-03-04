@@ -24,5 +24,5 @@ class Ingredientes:
 
 ing1 = Ingredientes("Cogumelo", 1, "unidade")
 ing2 = Ingredientes("Miojo")
-r_ing = []
-r1 = Receita("Mario", 50, ' 1-Pegue um cogumelo, 2-Queime ele e grite tres vezes mario, 3- coma um miojo da nitendo',Ingredientes)
+r_ing = [ing1, ing2]
+r1 = Receita("Mario", 50, ' 1-Pegue um cogumelo, 2-Queime ele e grite tres vezes mario, 3- coma um miojo da nitendo', r_ing)
