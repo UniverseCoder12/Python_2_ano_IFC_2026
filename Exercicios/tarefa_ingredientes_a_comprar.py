@@ -39,16 +39,18 @@ r2 = Receita("miojo cozido", 5, ' 1-Ferva a água 2-Coloque o miojo na água fer
 print(r2)
 rec = [r1,r2]
 tbl = {}
-lst_ing = []
-a = ""
+#lst_ing = []
 
 for re in rec:
     for ing in re.ingredientes:
             if ing.nome in tbl:
-                tbl[ing.nome].quantidade += 1
+                tbl[ing.nome].quantidade += ing.quantidade
             else:
                 tbl[ing.nome] = ing
-                lst_ing.append(ing.nome)
-            
-for i in lst_ing:
-    print(f"{tbl[i].quantidade} {tbl[i].unidade} de {tbl[i].nome}")
+#               lst_ing.append(ing.nome)
+
+for nome in tbl:
+    print(tbl[nome])
+
+#for i in lst_ing:
+#   print(f"{tbl[i].quantidade} {tbl[i].unidade} de {tbl[i].nome}")
