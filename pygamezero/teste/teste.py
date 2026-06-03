@@ -14,6 +14,8 @@ quad.pos = 300, 1
 quad2 = Actor('quadrado2.png')
 
 quad2.pos = 450, -200
+velquad1 = 0
+velquad2 = 0
 
 # criar uma "base"
 base = Actor('base.png')
@@ -24,6 +26,7 @@ base.height = 1000
 # definir a posição da base
 base.pos = 400, 600
 i=100
+i2=100
 
 # definir largura e altura da janela
 TITLE = "YURI ALBERTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
@@ -42,21 +45,29 @@ def draw():
 # método que vai atualizar a posição dos atores
 def update():
     global i
+    global i2
+    global velquad1
+    global velquad2
+    
     # se o ator NÃO colidiu com a base...
     if not quad.colliderect(base):
         # o ator continua "caindo"
-        quad.top += 9.8
+        velquad1 += 1
+        quad.top += velquad1
     else:
+        velquad1 = 0
         quad.top -= i
         if i > 0:
             i = i - 10
     if not quad2.colliderect(base):
         # o ator continua "caindo"
-        quad2.top += 9.8
+        velquad2 += 1
+        quad2.top += velquad2
     else:
-        quad2.top -= i
-        if i > 0:
-            i = i - 10
+        velquad2 = 0
+        quad2.top -= i2
+        if i2 > 0:
+            i2 = i2 - 10
 
 # executar o jogo
 pgzrun.go()
