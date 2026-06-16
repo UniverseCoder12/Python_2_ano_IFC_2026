@@ -68,6 +68,8 @@ def update():
         quad2.top -= i2
         if i2 > 0:
             i2 = i2 - 10
+    if quad.top > 600 or quad.top < 0:
+        exit()
 
 # executar o jogo
 pgzrun.go()
