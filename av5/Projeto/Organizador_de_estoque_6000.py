@@ -6,51 +6,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def escolher_banco():
-
-    print("┍──────────────────────────────┑")
-    print("|      ESCOLHA O BANCO        |")
-    print("|                              |")
-    print("| 1 - SQLite                  |")
-    print("| 2 - MySQL                   |")
-    print("┕──────────────────────────────┙")
-
-    while True:
-        escolha = input("Selecione uma opção: ")
-
-        if escolha == "1":
-            engine = create_engine("sqlite:///estoque.db",echo=False)
-            print("\nBanco SQLite selecionado.")
-            return engine
-
-        elif escolha == "2":
-
-            usuario = os.getenv("MYSQL_USER")
-            senha = os.getenv("MYSQL_PASSWORD")
-            host = os.getenv("MYSQL_HOST")
-            porta = os.getenv("MYSQL_PORT")
-            banco = os.getenv("MYSQL_DATABASE")
-
-            senha = senha or ""
-
-            url = (f"mysql+pymysql://{usuario}:{senha}@{host}:{porta}/{banco}")
-
-            try:
-                engine = create_engine(url,echo=False)
-
-                with engine.connect():
-                    pass
-
-                print("\nBanco MySQL selecionado.")
-                return engine
-
-            except Exception as erro:
-                print("\nNão foi possível conectar ao MySQL.")
-                print("Erro:", erro)
-
-        else:
-            print("Opção inválida.")
-
 class Base(DeclarativeBase):
     pass
 
@@ -88,7 +43,7 @@ def menu():
 | 7 - Mudar o preço            |
 | 8 - Deletar produto          |
 | 9 - Mostrar marcas           |
-| 0 - Sair                     |
+| 0 - Sair do Banco            |
 ┕──────────────────────────────┙
 """)
 
@@ -296,60 +251,104 @@ def deletar(session):
 
 def main():
 
-    # Escolhe SQLite ou MySQL
-    engine = escolher_banco()
+    while True:
 
-    # Cria as tabelas caso ainda não existam
-    Base.metadata.create_all(engine)
-
-    print("\nBanco de dados pronto!")
-
-    with Session(engine) as session:
-
-        while True:
-
-            menu()
-
+        print("┍──────────────────────────────┑")
+        print("|       ESCOLHA O BANCO        |")
+        print("|                              |")
+        print("| 1 - SQLite                   |")
+        print("| 2 - MySQL                    |")
+        print("| 3 - Fechar Programa          |")
+        print("┕──────────────────────────────┙")
+        
+        escolha = input("Selecione uma opção: ")
+        
+        if escolha == "1":
+            engine = create_engine("sqlite:///estoque.db",echo=False)
+            print("\nBanco SQLite selecionado.")
+        
+        elif escolha == "2":
+        
+            usuario = os.getenv("MYSQL_USER")
+            senha = os.getenv("MYSQL_PASSWORD")
+            host = os.getenv("MYSQL_HOST")
+            porta = os.getenv("MYSQL_PORT")
+            banco = os.getenv("MYSQL_DATABASE")
+            print(usuario)
+        
+            senha = senha or ""
+        
+            url = (f"mysql+pymysql://{usuario}:{senha}@{host}:{porta}/{banco}")
+        
             try:
-                opcao = int(input("Selecione uma opção: "))
+                engine = create_engine(url,echo=False)
+        
+                with engine.connect():
+                    pass
+        
+                print("\nBanco MySQL selecionado.")
+        
+            except Exception as erro:
+                print("\nNão foi possível conectar ao MySQL.")
+                print("Erro:", erro)
+        
+        elif escolha == "3":
+            print("Tenha um Bom dia")
+            break
+        
+        else:
+            print("Opção inválida.")
 
-            except ValueError:
-                print("\nDigite um número válido.")
-                continue
 
-            if opcao == 1:
-                cadastrar_pro(session)
+        Base.metadata.create_all(engine)
 
-            elif opcao == 2:
-                buscar_pro(session)
+        print("\nBanco de dados pronto!")
 
-            elif opcao == 3:
-                adicionar_retirar_pro(session)
+        with Session(engine) as session:
 
-            elif opcao == 4:
-                mostrar_estoque(session)
+            while True:
 
-            elif opcao == 5:
-                mostrar_pro_fora_estoque(session)
+                menu()
 
-            elif opcao == 6:
-                cadastrar_marca(session)
+                try:
+                    opcao = int(input("Selecione uma opção: "))
 
-            elif opcao == 7:
-                mudar_preco(session)
+                except ValueError:
+                    print("\nDigite um número válido.")
+                    continue
 
-            elif opcao == 8:
-                deletar(session)
+                if opcao == 1:
+                    cadastrar_pro(session)
 
-            elif opcao == 9:
-                mostrar_marcas(session)
+                elif opcao == 2:
+                    buscar_pro(session)
 
-            elif opcao == 0:
-                print("\nTenha um bom dia!")
-                break
+                elif opcao == 3:
+                    adicionar_retirar_pro(session)
 
-            else:
-                print("\nOpção inválida.")
+                elif opcao == 4:
+                    mostrar_estoque(session)
+
+                elif opcao == 5:
+                    mostrar_pro_fora_estoque(session)
+
+                elif opcao == 6:
+                    cadastrar_marca(session)
+
+                elif opcao == 7:
+                    mudar_preco(session)
+
+                elif opcao == 8:
+                    deletar(session)
+
+                elif opcao == 9:
+                    mostrar_marcas(session)
+
+                elif opcao == 0:
+                    break
+
+                else:
+                    print("\nOpção inválida.")
 
 if __name__ == "__main__":
     main()
